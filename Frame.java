@@ -170,7 +170,7 @@ public class Frame extends Thread{
 		button.setEnabled(false);
 		
 		//calcolo posizione del canestro
-		centroXCanestro1 = (395 * latoCanestro) / 980;		//centro del canestro di dimensioni 980x980  -->  395x340 - [585 - latoPalla]x340
+		centroXCanestro1 = ((395 + (latoPalla / 2)) * latoCanestro) / 980;		//centro del canestro di dimensioni 980x980  -->  395x340 - [585 - latoPalla]x340
 		centroXCanestro2 = ((585 - (latoPalla / 2)) * latoCanestro) / 980;
 		centroYCanestro = (340 * latoCanestro) / 980;
 		
