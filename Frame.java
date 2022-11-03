@@ -1,5 +1,3 @@
-package palla_canestro;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -18,8 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 public class Frame extends Thread{
-	final String pathPalla = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\palla.png";
-	final String pathCanestro = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\canestro.jpg";
+	final String pathPalla = "C:\\Users\\gaeta\\Documents\\java\\Pallacanestro\\palla.png";
+	final String pathCanestro = "C:\\Users\\gaeta\\Documents\\java\\Pallacanestro\\canestro.jpg";
 	
 	final int LARGHEZZA = 800;
 	final int ALTEZZA = 500;
@@ -187,6 +185,7 @@ public class Frame extends Thread{
 	}
 	
 	public void spostaPalla(int x, int y) {
+		//System.out.println(h + "  " + w);
 		label3.setBounds(x + xPalla, yPalla - y, latoPalla, latoPalla);
 	}
 	

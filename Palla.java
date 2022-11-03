@@ -1,5 +1,3 @@
-package palla_canestro;
-
 
 
 public class Palla implements Runnable{	
@@ -102,10 +100,11 @@ public class Palla implements Runnable{
 		
 		//TODO andre: canestro = cT.isCanestro();
 		
-		for(double i = 0; i < 0.5; i += 0.01) {
-			cT.setX(i);
+		for(double i = 0.00; i < 1; i += 0.01) {
+			cT.setT(i);
 			//System.out.println(cT.calcolaX() + "    " + cT.calcolaY());
-			setY((int) (cT.calcolaY()));
+			setX((int) (cT.calcolaX() * 1000));
+			setY((int) (cT.calcolaY() * 1000));
 			//System.out.println(x + "    " + y);
 			try {
 				Thread.sleep(100);
