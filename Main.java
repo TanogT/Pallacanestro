@@ -1,4 +1,4 @@
-package palla_canestro;
+package pallaCanestro;
 
 
 public class Main {

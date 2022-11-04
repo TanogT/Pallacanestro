@@ -1,4 +1,4 @@
-package palla_canestro;
+package pallaCanestro;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,8 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 public class Frame extends Thread{
-	final String pathPalla = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\palla.png";
-	final String pathCanestro = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\canestro.jpg";
+	//final String pathPalla = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\palla.png";
+	//final String pathCanestro = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\canestro.jpg";
+	final String pathPalla = "C:\\Users\\delcarlo_a\\Desktop\\informatica\\java\\pallaCanestro\\src\\pallaCanestro\\images\\palla.png";
+	final String pathCanestro = "C:\\Users\\delcarlo_a\\Desktop\\informatica\\java\\pallaCanestro\\src\\pallaCanestro\\images\\canestro.jpg";
 	
 	final int LARGHEZZA = 800;
 	final int ALTEZZA = 500;
@@ -49,8 +51,8 @@ public class Frame extends Thread{
     Palla p = new Palla();
     
     private boolean gioco = false;
-    private int x = 0;
-    private int y = 0;
+    private int x;
+    private int y;
     private int xPalla, yPalla, xCanestro, yCanestro;
     private int latoPalla, latoCanestro;
     private int centroXCanestro1, centroXCanestro2, centroYCanestro;
