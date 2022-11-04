@@ -26,14 +26,14 @@ public class Frame extends Thread{
 	final int ALTEZZA = 500;
 	
 	private double v = 50;
-	private double angolo = 50;
+	private double angolo = 45;
 	
 	JFrame frame = new JFrame();
 	JPanel panel1 = new JPanel();
 	JLabel label1 = new JLabel();
 	JSlider slider1 = new JSlider(0, 100, 50);	//slider velocita
 	JLabel label2 = new JLabel();
-	JSlider slider2 = new JSlider(0, 100, 50);	//slider angolo
+	JSlider slider2 = new JSlider(0, 89, 45);	//slider angolo
 	
 	JPanel panel2 = new JPanel();
 	JLabel label3 = new JLabel();	//palla
@@ -49,7 +49,6 @@ public class Frame extends Thread{
     
     LanciaPalla p = new LanciaPalla();
     
-    private boolean gioco = false;
     private int x, y;		//x y della traiettoria calcolati
     private int xPalla, yPalla, xCanestro, yCanestro;	//posizioni iniziali della palla e canestro proporzionati al frame
     private int latoPalla, latoCanestro;
@@ -87,8 +86,6 @@ public class Frame extends Thread{
 		panel1.add(Box.createRigidArea(new Dimension(0,40)));		//separatore
 		panel1.add(button);
 		
-		panel1.setMaximumSize(null);
-		
 		panel2.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel2.setLayout(null);
 		panel2.add(label3);
@@ -96,21 +93,17 @@ public class Frame extends Thread{
 	}
 	
 	private void setLabel(){
-		label1.setBounds(0, 30, 120, 50);
 		label1.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label1.setText("Velocita': " + slider1.getValue());
 		label1.setPreferredSize(new Dimension(120, 30));
 		
-		label2.setBounds(0, 100, 120, 50);
 		label2.setAlignmentX(Component.CENTER_ALIGNMENT);
 		label2.setPreferredSize(new Dimension(120, 30));
 		label2.setText("Angolo: " + slider2.getValue());
 		label2.setLayout(null);
 		
-		label3.setBounds(100, 100, 45, 45);
 		label3.setIcon(palla);
 		
-		label4.setBounds(350, 250, 150, 150);
 		label4.setIcon(canestro);
 	}
 	
@@ -242,7 +235,7 @@ public class Frame extends Thread{
 	
 	@Override
 	public void run() {
-		gioco = true;
+		boolean gioco = true;
 		while(gioco) {
 			//se le x o le y sono state cambiate durante il periodo di lancio
 			if((x != p.getX() || y != p.getY()) && p.isMovimento()){	
