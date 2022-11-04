@@ -1,208 +1,365 @@
+package disequzioni;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 
-public class Frame extends Thread{
+public class Frame extends JPanel
+{
+	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
+	
+	private JFrame jf = new JFrame();
+	private JButton button = new JButton("Fatto");
+	private JLabel label1 = new JLabel();
+	private JTextField label2 = new JTextField();
+	private JLabel label3 = new JLabel();
+	private JTextField label4 = new JTextField();
+	private JLabel label5 = new JLabel();
+	private JTextField label6 = new JTextField();
+	private JPanel panel = new JPanel();
+	private String[] optionsToChoose = {"Sin(x)", "Cos(x)", "Tan(x)"};
+	private JComboBox<String> jComboBox = new JComboBox<>(optionsToChoose);
+	private JButton butPulisci = new JButton("Pulisci");
 
+	private String[] optionsToChoose2 = {">", "<", "="};
+	private JComboBox<String> jComboBox2 = new JComboBox<>(optionsToChoose2);
+	
+	private CalcoloAngolo ca = new CalcoloAngolo();
+	
+	//private double x1, x2, y1, y2;
+	//private boolean fuori;
+	//private double gradoArco1, gradoArco2;
+	
+	/*public boolean getFuori() {
+		return fuori;
+	}
 
-	final int LARGHEZZA = 800;
-	final int ALTEZZA = 500;
+	public void setFuori(boolean fuori) {
+		this.fuori = fuori;
+	}*/
+
+	/*public double getGradoArco1() {
+		return gradoArco1;
+	}
+
+	public void setGradoArco1(double gradoArco1) {
+		this.gradoArco1 = gradoArco1;
+	}
+
+	public double getGradoArco2() {
+		return gradoArco2;
+	}
+
+	public void setGradoArco2(double gradoArco2) {
+		this.gradoArco2 = gradoArco2;
+	}*/
+
+	private int segno;
+	private int funz;
 	
-	private double v;
-	private double angolo;
+	private boolean pulito = false;
 	
-	JFrame frame = new JFrame();
-	JPanel panel1 = new JPanel();
-	JLabel label1 = new JLabel();
-	JSlider slider1 = new JSlider(0, 100, 50);
-	JLabel label2 = new JLabel();
-	JSlider slider2 = new JSlider(0, 100, 50);
+	public void setPulito(boolean pulito) {
+		this.pulito = pulito;
+	}
+	public boolean getPulito() {
+		return pulito;
+	}
+
+	private String valore;
 	
-	JPanel panel2 = new JPanel();
+	//static
+	private int op;
+	private int funzione;
+	
+	public int getSegno() {
+		return segno;
+	}
+
+	public void setSegno(int segno) {
+		this.segno = segno;
+	}
+
+	public int getFunz() {
+		return funz;
+	}
+
+	public void setFunz(int funz) {
+		this.funz = funz;
+	}
+
+	/*public double getX1() {
+		return x1;
+	}
+
+	public double getX2() {
+		return x2;
+	}
+
+	public double getY1() {
+		return y1;
+	}
+
+	public double getY2() {
+		return y2;
+	}*/
 
 	
-	JButton button = new JButton();
-	
-	PanelLancio pL = new PanelLancio();
-    
-    Palla p = new Palla();
-    
-    
-    
-    private boolean gioco = false;
+	/*public boolean isPulito() {
+		return pulito;
+	}*/
 
-    
+	
+	/*public int getOp() {
+		return op;
+	}*/
+
+	
+	/*public int getFunzione() {
+		return funzione;
+	}*/
+
 	public Frame(){
-		setSlider();
-		setLabel();
-		setButton();
-		setPanel();
-		setFrame();
-		System.out.println("Frame creato");
+		// panel scelta funzione
+		initFrame();
+		initLabel();
+		initButton();
+		initComboBox();
+		initPanel();
+		this.getClass();
 	}
-	private void setFrame(){
-		frame.setTitle("Pallacanestro");
-		frame.setSize(LARGHEZZA, ALTEZZA);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLayout(new BorderLayout(10, 10));
+	
+	private void initFrame() {// panel piano cartesiano
+		jf.setTitle("piano cartesiano");
+		jf.setSize(915, 450);
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setResizable(false);
+		jf.setLayout(null);
 
-		frame.getContentPane().add(panel1, BorderLayout.WEST);
-		//frame.getContentPane().add(panel2, BorderLayout.CENTER);
-		//Parabola parabola = new Parabola();
-		//frame.add(parabola);
-		frame.getContentPane().add(pL, BorderLayout.CENTER);
+		this.setBounds(260, 0, 600, 400);
 
-		frame.setVisible(true);
-		
+		jf.add(this);
+		jf.add(panel);
+		jf.setVisible(true);
 	}
 	
-	private void setPanel() {
-		panel1.setBorder(BorderFactory.createLineBorder(Color.black));
-		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+	private void initLabel() {
+		label1.setText("Scegli funzione goniometrica");
+		label1.setHorizontalAlignment(JLabel.CENTER);
+		label1.setEnabled(false);
+		label1.setBounds(10,10,230,25);
+		//label1.setBorder(BorderFactory.createLineBorder(Color.black));
+			
+		label2.setBounds(10, 80, 260, 25);
+		label2.setBorder(BorderFactory.createLineBorder(Color.black));
+		label2.setEnabled(true);
 		
-		panel1.add(label1);
-		panel1.add(slider1);
-		panel1.add(Box.createRigidArea(new Dimension(0,40)));		//separatore
-		panel1.add(label2);
-		panel1.add(slider2);
-		panel1.add(Box.createRigidArea(new Dimension(0,40)));		//separatore
-		panel1.add(button);
+		label3.setText("Risultato in gradi");
+		label3.setHorizontalAlignment(JLabel.CENTER);
+		label3.setEnabled(false);
+		label3.setBounds(10,140,260,25);
+		//label1.setBorder(BorderFactory.createLineBorder(Color.black));
+	
+		label5.setText("Risultato in radianti");
+		label5.setHorizontalAlignment(JLabel.CENTER);
+		label5.setEnabled(false);
+		label5.setBounds(10,190,260,25);
+		//label1.setBorder(BorderFactory.createLineBorder(Color.black));
+			
+		label4.setBounds(10, 165, 260, 25);
+		label4.setBorder(BorderFactory.createLineBorder(Color.black));
+		label4.setEnabled(false);
 		
-		panel1.setMaximumSize(null);
+		label6.setBounds(10, 215, 260, 25);
+		label6.setBorder(BorderFactory.createLineBorder(Color.black));
+		label6.setEnabled(false);
+	}   
+	
+	private void initButton() {
+		button.setBounds(10, 115, 125, 25);
+		ActionListener but = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//aspetto gaetano mi dica metodo
+				// label2.getText();
+				valore = label2.getText();
+				System.out.println("bottone premuto\t" + op + "\t" + valore + "\t" + funzione);	
+				// aspetto gaetano metodo 
+				ca.setEspressione(valore, op , funzione);
+				/*x1 = ca.getX1();
+				y1 = ca.getY1();
+				x2 = ca.getX2();
+				y2 = ca.getY2();*/
+				//label2.setText(ca.get);
+				label4.setText(ca.getGradiString());
+				label6.setText(ca.getRadiantiString());
+				setSegno(op);
+				setFunz(funzione);
+				setPulito(true);
+				//setAll(segno, funz, pulito, ca.getX1(), ca.getX2(), ca.getY1(), ca.getY2(), ca.getGradoArco1(), ca.getGradi2(), ca.isFuori());
+				//plane.setProcedo(true);
+				jf.repaint();
+			}
+		};
+		button.addActionListener(but);
 		
-		
+		butPulisci.setBounds(145, 115, 125, 25);
+		ActionListener pulisci = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				valore = null;
+				label4.setText("");
+				label6.setText("");
+				setPulito(false);
+				System.out.println("Guarda che ti ho pulito....");
+				//plane.setProcedo(pulito);
+			}
+			
+		};
+		butPulisci.addActionListener(pulisci);
 	}
 	
-	private void setLabel(){
-		label1.setBounds(0, 30, 120, 50);
-		label1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		label1.setText("Velocita': " + slider1.getValue());
-		label1.setPreferredSize(new Dimension(120, 30));
-		
-		label2.setBounds(0, 100, 120, 50);
-		label2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		label2.setPreferredSize(new Dimension(120, 30));
-		label2.setText("Angolo: " + slider2.getValue());
-		label2.setLayout(null);
-		
-		
+	private void initPanel() {
+		panel.setBounds(0,0, 280, 250);
+		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panel.setLayout(null);
+		       
+		panel.add(jComboBox);
+		panel.add(jComboBox2);
+		panel.add(label1);
+		panel.add(label2);
+		panel.add(label3);
+		panel.add(label4);
+		panel.add(label5);
+		panel.add(label6);
+		panel.add(button);
+		panel.add(butPulisci);
 	}
 	
-	private void setButton() {
-		button.setAlignmentX(Component.CENTER_ALIGNMENT);
-		button.setText("Gioca");
-		button.setAlignmentY(150);
-		button.setPreferredSize(new Dimension(120, 30));
-		button.setFocusPainted(false);
-		button.addActionListener(e -> giocaBut());
-	}
-	
-	private void setSlider() {
-		slider1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		slider1.setPaintTrack(true);
-		slider1.setMajorTickSpacing(25);
-		slider1.setPaintLabels(true);
-		slider1.addChangeListener(e -> cambiaVelocita());
-		slider1.setVisible(true);
+	private void initComboBox() {
+		jComboBox.setBounds(10, 45, 125, 25);
+		jComboBox2.setBounds(145, 45, 125, 25);
 		
-		slider2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		slider2.setPaintTrack(true);
-		slider2.setMajorTickSpacing(25);
-		slider2.setPaintLabels(true);
-		slider2.addChangeListener(e -> cambiaAngolo());
-		slider2.setVisible(true);
-	}
-	
-	 public double getVelocita() {
-			return v;
-		}
-		public void setvelocita(double v) {
-			this.v = v;
-		}
-		public double getAngolo() {
-			return angolo;
-		}
-		public void setAngolo(double angolo) {
-			this.angolo = angolo;
-		}
-	
-	public void cambiaVelocita() {
-		int v = slider1.getValue();
-		label1.setText("Velocita': " + v);
-		setvelocita(v);
-	}
-	
-	public void cambiaAngolo() {
-		int angolo = slider2.getValue();
-		label2.setText("Angolo: " + angolo);
-		setAngolo(angolo);
-	}
-
-	public void giocaBut(){
-		frame.setResizable(false);
-		button.setEnabled(false);
+		jComboBox.addActionListener(new ActionListener() {  
+	        public void actionPerformed(ActionEvent e) {       
+	        	if(jComboBox.getItemAt(jComboBox.getSelectedIndex()).equalsIgnoreCase("Scegli funzione")) {
+	        		
+	        	}else {
+		        	funzione = jComboBox.getSelectedIndex();  
+		        }
+	        }  
+		});       
 		
-		pL.startLancio();
-		
-		
-		p.setPalla(angolo, v, pL.getCentroXCanestro1(), pL.getCentroXCanestro2(), pL.getCentroYCanestro());
-		p.setMovimento(true);
-		
-		Thread thFrame = new Thread(p);
-		thFrame.start();
-		System.out.println("finito");
+		jComboBox2.addActionListener(new ActionListener() {  
+	        public void actionPerformed(ActionEvent e) {       
+	        	//op = jComboBox2.getItemAt(jComboBox2.getSelectedIndex());  
+	        	//label6.setText(op);  
+	        	op = jComboBox2.getSelectedIndex();
+	        }  
+		});     
 	}
-	
-	
-	
-
-	
-	
 	
 	@Override
-	public void run() {
-		gioco = true;
-		while(gioco) {
-			if(pL.getX() != p.getX() || pL.getY() != p.getY()) {
-				pL.setX(p.getX());
-				pL.setY(p.getY()); 
-				pL.spostaPalla(pL.getX(), pL.getY());
+	public void paintComponent(Graphics g) 
+	{
+		super.paintComponent(g);
+		super.setBorder(BorderFactory.createLineBorder(Color.black));
+		super.setBounds(290, 0, 600, 400);
+		g.setColor(Color.BLACK);
+		g.drawLine(300, 0, 300, 400);
+		g.drawLine(0, 200, 600, 200);
+		g.drawOval(250, 150, 100, 100);
+		g.drawString("1", 310, 150);
+		g.drawString("-1", 310, 260);
+		g.drawString("-1", 235, 200);
+		g.drawString("1", 355, 200);
+		
+		boolean procedo = getPulito();
+		int segno = getSegno();
+		int funzione = getFunz();
+		double x1 = ca.getX1();
+		double x2 = ca.getX2();
+		double y1 = ca.getY1();
+		double y2 = ca.getY2();
+		double gradoArco1 = ca.getGradoArco1();
+		double gradoArco2 = ca.getGradoArco2();
+		boolean fuori = ca.isFuori();
+		
+		if(procedo) {
+			if(funzione == 0) {
+				if(!fuori) {
+					g.drawLine((int)300, 200, (int)(300 + (double)(50 * x1)), (int)(200 - (double)(50 * y1)));
+					g.drawLine((int)300, 200, (int)(300 + (double)(50 * x2)), (int)(200 - (double)(50 * y1)));
+				}
+				g.setColor(Color.red);
+				g.drawLine(0, (int)(200 - (double)(50 * y1)), 600, (int)(200 - (double)(50 * y1)));
+				
+				int x = segno;
+				
+				switch(x) {
+				case 0:
+					g.drawArc(250, 150, 100, 100, (int)gradoArco1, (int)gradoArco2 - (int)gradoArco1);
+					break;
+				case 1: 
+					g.drawArc(250, 150, 100, 100, (int)gradoArco1, (int)gradoArco2 - (int)gradoArco1);	//180 + 2 * (int)
+					break;
+				case 2: 
+					break;
+				default: 
+					System.err.println("errore switch op cp");
+					break;
+				}
+			}else if(funzione == 1) {
+				if(!fuori) {
+					g.drawLine((int)300, 200, (int)(300 + (double)(50 * x1)), (int)(200 + (double)(50 * y1)));
+					g.drawLine((int)300, 200, (int)(300 + (double)(50 * x1)), (int)(200 + (double)(50 * y2)));
+				}
+				g.setColor(Color.red);
+				g.drawLine((int)((int)(300 + (double)(50 *  x1))), 0, (int)(300 + (double)(50 * x1)), 400);
+				
+				int x = segno;
+				switch(x) {
+				case 0:
+					g.drawArc(250, 150, 100, 100, (int)gradoArco1, (int)gradoArco2 - (int)gradoArco1);
+					
+					break;
+				case 1: 
+					g.drawArc(250, 150, 100, 100, (int)gradoArco1, (int)gradoArco2 - (int)gradoArco1);
+					break;
+				case 2: 
+					break;
+				default: 
+					System.err.println("errore switch op cp");
+					break;
+				}
+			}else if(funzione == 2) {
+				g.setColor(Color.red);
+				g.drawLine(350, 0, 350, 400);
+				g.drawLine(0, (int)(200 - (double)(50 * y1)), 600, (int)(200 - (double)(50 * y1)));
+				
+				int x = segno;
+				switch(x) {
+				case 0:
+					g.drawArc(250, 150, 100, 100, (int)gradoArco1, (int)gradoArco2 - (int)gradoArco1);
+					break;
+				case 1: 
+					g.drawArc(250, 150, 100, 100, (int)gradoArco1, (int)gradoArco2 - (int)gradoArco1);	//180 + 2 * (int)
+					break;
+				case 2: 
+					break;
+				default: 
+					System.err.println("errore switch op cp");
+					break;
+				}
+				
+				g.drawLine((int)(300 + (double)(50 * x1)), (int)(200 - (double)(50 * y1)), (int)(300 + (double)(50 * x2)), (int)(200 - (double)(50 * y2)));
 			}
-			if(!p.isMovimento() && p.isCanestro() && !p.isShowMessage())
-			{
-				p.setShowMessage(true);
-				JOptionPane.showMessageDialog(frame, "Hai fatto canestro!");
-			}
-			
-			if(!p.isMovimento())
-			{
-				frame.setResizable(true);
-				button.setEnabled(true);
-			}
-			
-			//disegnaParabola(null);
-			pL.setDimensioni();
-			if(!p.isMovimento())
-		    {
-				pL.setStartPosition();
-		    	
-		    }
-		}
+		}				
 	}
 	
 	

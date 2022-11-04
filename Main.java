@@ -1,11 +1,10 @@
+package disequzioni;
 
 public class Main {
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
+		Frame frame = new Frame();
+		frame.getClass();
+	}
 
-		Frame fr = new Frame();
-		
-		Thread thFr = new Thread(fr);
-		thFr.start();
-	}	
 }
