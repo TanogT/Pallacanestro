@@ -1,5 +1,3 @@
-package pallaCanestro;
-
 
 public class Main {
 

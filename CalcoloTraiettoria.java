@@ -1,5 +1,3 @@
-package pallaCanestro;
-
 
 public class CalcoloTraiettoria{
 	private double alfa, v;
@@ -29,7 +27,7 @@ public class CalcoloTraiettoria{
 	
 	public int calcolaAltezza() {
 		double rad = radianti(alfa);
-		return (int) ((Math.pow(v, 2) * Math.pow(Math.sin(rad), 2)) / (2 * G));
+		return (int) ((Math.pow(v, 2) * Math.pow(Math.sin(rad), 2)) / 2 * G);
 	}
 	
 	public int calcolaGittata() {
@@ -44,7 +42,7 @@ public class CalcoloTraiettoria{
 	
 	public double calcolaY() {
 		double rad = radianti(alfa);
-		return (-(G / (2 * Math.pow(v, 2) * Math.pow(Math.cos(rad), 2)) * Math.pow(x, 2))) +  Math.tan(rad) * x + v;
+		return -G / 2 * Math.pow(v, 2) * Math.pow(Math.cos(rad), 2) * Math.pow(x, 2) +  Math.tan(rad) * x + v;
 	}
 	public double radianti(double gradi) {
 		return (gradi * Math.PI) / 180;

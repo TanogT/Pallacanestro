@@ -1,5 +1,3 @@
-package pallaCanestro;
-
 
 
 public class Palla implements Runnable{	
@@ -17,6 +15,10 @@ public class Palla implements Runnable{
 	private int centroCanestroY;
 
 	CalcoloTraiettoria cT = new CalcoloTraiettoria();
+	
+	public Palla() {
+		
+	}
 	
 	public int getCentroCanestroX2() {
 		return centroCanestroX2;
@@ -97,16 +99,14 @@ public class Palla implements Runnable{
 		setShowMessage(false);
 		
 		//TODO andre: canestro = cT.isCanestro();
-		int g = cT.calcolaGittata();
-		System.out.println(g);
-		for(int i = 0; i < g; i++) {
+		
+		for(double i = 0; i < 0.5; i += 0.01) {
 			cT.setX(i);
 			//System.out.println(cT.calcolaX() + "    " + cT.calcolaY());
 			setY((int) (cT.calcolaY()));
-			setX((int)i);
 			//System.out.println(x + "    " + y);
 			try {
-				Thread.sleep(10);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
