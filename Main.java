@@ -1,13 +1,11 @@
-package pallaCanestro;
-
 
 public class Main {
 
 	public static void main(String[] args){
 
-		Frame fr = new Frame();
+		Frame frame = new Frame();
 		
-		Thread thFr = new Thread(fr);
-		thFr.start();
+		Thread thread_frame = new Thread(frame);
+		thread_frame.start();
 	}	
 }

@@ -1,5 +1,3 @@
-package pallaCanestro;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -20,27 +18,28 @@ import javax.swing.JSlider;
 public class Frame extends Thread{
 	//final String pathPalla = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\palla.png";
 	//final String pathCanestro = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\canestro.jpg";
-	final String pathPalla = "C:\\Users\\delcarlo_a\\Desktop\\informatica\\java\\pallaCanestro\\src\\pallaCanestro\\images\\palla.png";
-	final String pathCanestro = "C:\\Users\\delcarlo_a\\Desktop\\informatica\\java\\pallaCanestro\\src\\pallaCanestro\\images\\canestro.jpg";
+	final String pathPalla = "C:\\Users\\gaeta\\Documents\\java\\Pallacanestro\\palla.png";
+	final String pathCanestro = "C:\\Users\\gaeta\\Documents\\java\\Pallacanestro\\canestro.jpg";
 	
-	final int LARGHEZZA = 800;
+	//dimensioni iniziali del frame
+	final int LARGHEZZA = 800;	
 	final int ALTEZZA = 500;
 	
-	private double v;
-	private double angolo;
+	private double v = 50;
+	private double angolo = 50;
 	
 	JFrame frame = new JFrame();
 	JPanel panel1 = new JPanel();
 	JLabel label1 = new JLabel();
-	JSlider slider1 = new JSlider(0, 100, 50);
+	JSlider slider1 = new JSlider(0, 100, 50);	//slider velocita
 	JLabel label2 = new JLabel();
-	JSlider slider2 = new JSlider(0, 100, 50);
+	JSlider slider2 = new JSlider(0, 100, 50);	//slider angolo
 	
 	JPanel panel2 = new JPanel();
 	JLabel label3 = new JLabel();	//palla
 	JLabel label4 = new JLabel();	//canestro
 	
-	JButton button = new JButton();
+	JButton button = new JButton();		//bottone gioca
 	
 	ImageIcon ic1 = new ImageIcon(pathPalla);
     ImageIcon palla = new ImageIcon(ic1.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH));
@@ -48,14 +47,13 @@ public class Frame extends Thread{
     ImageIcon ic2 = new ImageIcon(pathCanestro);
     ImageIcon canestro = new ImageIcon(ic2.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
     
-    Palla p = new Palla();
+    LanciaPalla p = new LanciaPalla();
     
     private boolean gioco = false;
-    private int x;
-    private int y;
-    private int xPalla, yPalla, xCanestro, yCanestro;
+    private int x, y;		//x y della traiettoria calcolati
+    private int xPalla, yPalla, xCanestro, yCanestro;	//posizioni iniziali della palla e canestro proporzionati al frame
     private int latoPalla, latoCanestro;
-    private int centroXCanestro1, centroXCanestro2, centroYCanestro;
+    private int centroXCanestro1, centroXCanestro2, centroYCanestro;	//punti per cui se la palla passa fa canestro
     
 	public Frame(){
 		setSlider();
@@ -75,7 +73,6 @@ public class Frame extends Thread{
 		frame.getContentPane().add(panel2, BorderLayout.CENTER);
 
 		frame.setVisible(true);
-		
 	}
 	
 	private void setPanel() {
@@ -142,25 +139,28 @@ public class Frame extends Thread{
 		slider2.setVisible(true);
 	}
 	
-	 public double getVelocita() {
-			return v;
-		}
-		public void setvelocita(double v) {
-			this.v = v;
-		}
-		public double getAngolo() {
-			return angolo;
-		}
-		public void setAngolo(double angolo) {
-			this.angolo = angolo;
-		}
+	public double getVelocita() {
+		return v;
+	}
+	public void setvelocita(double v) {
+		this.v = v;
+	}
 	
+	public double getAngolo() {
+		return angolo;
+	}
+	public void setAngolo(double angolo) {
+		this.angolo = angolo;
+	}
+	
+	//metodo invocato allo spostamento dello slider velocita(slider1)
 	public void cambiaVelocita() {
 		int v = slider1.getValue();
 		label1.setText("Velocita': " + v);
 		setvelocita(v);
 	}
 	
+	//metodo invocato allo spostamento dello slider angolo(slider2)
 	public void cambiaAngolo() {
 		int angolo = slider2.getValue();
 		label2.setText("Angolo: " + angolo);
@@ -180,15 +180,22 @@ public class Frame extends Thread{
 		centroXCanestro2 += xCanestro;
 		centroYCanestro += yCanestro;
 		
+		//proporziono in base alle x ed y calcolate
+		//xCanestro : x(xCT) = panel2Width : 250;
+		centroXCanestro1 = (centroXCanestro1 * 250) / panel2.getWidth();
+		centroXCanestro2 = (centroXCanestro2 * 250) / panel2.getWidth();
+		centroYCanestro = (centroYCanestro * 250) / panel2.getHeight();
+		
+		//imposto attributi a LanciaPalla per il calcolo della traiettoria
 		p.setPalla(angolo, v, centroXCanestro1, centroXCanestro2, centroYCanestro);
 		p.setMovimento(true);
 		
+		//apro un tread per il calcolo della traiettoria
 		Thread thFrame = new Thread(p);
 		thFrame.start();
-		System.out.println("finito");
 	}
 	
-	public void spostaPalla(int x, int y) {
+	public void spostaPalla() {
 		label3.setBounds(x + xPalla, yPalla - y, latoPalla, latoPalla);
 	}
 	
@@ -198,20 +205,19 @@ public class Frame extends Thread{
 		int area = h * w;
 		
 		//palla
-		int areaPalla = area / 500;		//l'area della palla deve essere di scala 1 : 200 rispetto all'area del panel
+		int areaPalla = area / 500;		//l'area della palla deve essere di scala 1 : 500 rispetto all'area del panel
 		latoPalla = (int)Math.sqrt(areaPalla);
 		ImageIcon ic1 = new ImageIcon(pathPalla);
 	    ImageIcon palla = new ImageIcon(ic1.getImage().getScaledInstance(latoPalla, latoPalla, Image.SCALE_SMOOTH));
 	    
+	    //calcolo il nuovo offset della palla
 	    xPalla = (w / 6) - latoPalla / 2;
 		yPalla = (h - (h / 5)) - latoPalla / 2;		
 	    
-	    if(!p.isMovimento())
-	    {
-	    	label3.removeAll();
-		    label3.setIcon(palla);
-	    	label3.setBounds(xPalla, yPalla, latoPalla, latoPalla);
-	    }
+		//se la palla non è in movimento la aggiorno in base ai valori calcolati
+    	label3.removeAll();
+	    label3.setIcon(palla);
+    	label3.setBounds(xPalla, yPalla, latoPalla, latoPalla);
 	    
 	    //canestro
 	    xCanestro = w - (w / 3);
@@ -225,34 +231,41 @@ public class Frame extends Thread{
 	    label4.removeAll();
 	    label4.setIcon(canestro);
 	    label4.setBounds(xCanestro, yCanestro, latoCanestro, latoCanestro);
-	    
-	    //System.out.println(w + " " + h);
+	}
+	
+	//adatto le x calcolate alla dimensione dello schermo
+	private void proporzionaXY() {
+		//xPallaCT : x(xFrame) = 250(kPrescelto) : panel2Width;
+		x = (p.getX() * panel2.getWidth()) / 250;
+		y = (p.getY() * panel2.getHeight()) / 250;
 	}
 	
 	@Override
 	public void run() {
 		gioco = true;
 		while(gioco) {
-			if(x != p.getX() || y != p.getY()) {
+			//se le x o le y sono state cambiate durante il periodo di lancio
+			if((x != p.getX() || y != p.getY()) && p.isMovimento()){	
 				x = p.getX();
 				y = p.getY();
-				spostaPalla(x, y);
+				proporzionaXY();
+				spostaPalla();
 			}
+			
+			//se hai fatto canestro e il messaggio non è stato mostrato
 			if(!p.isMovimento() && p.isCanestro() && !p.isShowMessage())
 			{
 				p.setShowMessage(true);
 				JOptionPane.showMessageDialog(frame, "Hai fatto canestro!");
 			}
 			
+			//se la palla è ferma al punto zero
 			if(!p.isMovimento())
 			{
 				frame.setResizable(true);
 				button.setEnabled(true);
-			}
-			
-			setDimensioni();
+				setDimensioni();	//adatta le dimensioni delle immagini in base a quella dello schermo
+			}		
 		}
 	}
-	
-	
 }

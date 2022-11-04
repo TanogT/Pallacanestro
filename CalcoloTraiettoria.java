@@ -1,5 +1,3 @@
-package pallaCanestro;
-
 
 public class CalcoloTraiettoria{
 	private double alfa, v;
