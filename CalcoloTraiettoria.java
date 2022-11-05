@@ -1,3 +1,5 @@
+package palla_canestro;
+
 
 public class CalcoloTraiettoria{
 	private double alfa, v;
@@ -42,7 +44,13 @@ public class CalcoloTraiettoria{
 	
 	public double calcolaY() {
 		double rad = radianti(alfa);
-		return (-(G / (2 * Math.pow(v, 2) * Math.pow(Math.cos(rad), 2)) * Math.pow(x, 2))) +  Math.tan(rad) * x + v;
+		double y = (-(G / (2 * Math.pow(v, 2) * Math.pow(Math.cos(rad), 2)) * Math.pow(x, 2))) +  Math.tan(rad) * x + v;
+		
+		if(y > 0) {
+			return y;
+		}
+		else
+			return -1;
 	}
 	public double radianti(double gradi) {
 		return (gradi * Math.PI) / 180;

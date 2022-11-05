@@ -1,3 +1,5 @@
+package palla_canestro;
+
 
 
 public class LanciaPalla implements Runnable{	
@@ -99,10 +101,19 @@ public class LanciaPalla implements Runnable{
 		
 		int g = cT.calcolaGittata();
 		System.out.println(g);
-		for(int i = 0; i < g; i++) {
+		int i = 0, y;
+		//for(int i = 0; i < g; i++) {
+		do {
 			cT.setX(i);
-			//System.out.println(cT.calcolaX() + "    " + cT.calcolaY());
-			setY((int) (cT.calcolaY()));
+			y = (int) cT.calcolaY();
+			if(y != -1)
+				setY((int) (cT.calcolaY()));
+			else {
+				System.err.println("y negativa");
+				setMovimento(false);
+				break;
+			}
+			// non so cosa fermare in caso di y negativa 
 			setX((int)i);
 			//System.out.println(x + "    " + y);
 			try {
@@ -110,7 +121,8 @@ public class LanciaPalla implements Runnable{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+			i++;
+		}while(y != 0);
 		
 		setMovimento(false);
 	}

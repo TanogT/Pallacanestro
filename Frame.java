@@ -1,3 +1,5 @@
+package palla_canestro;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -16,10 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 
 public class Frame extends Thread{
-	//final String pathPalla = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\palla.png";
-	//final String pathCanestro = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\canestro.jpg";
-	final String pathPalla = "C:\\Users\\gaeta\\Documents\\java\\Pallacanestro\\palla.png";
-	final String pathCanestro = "C:\\Users\\gaeta\\Documents\\java\\Pallacanestro\\canestro.jpg";
+	final String pathPalla = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\palla.png";
+	final String pathCanestro = "D:\\programmazione\\java\\palla_canestro\\src\\palla_canestro\\images\\canestro.jpg";
+	//final String pathPalla = "C:\\Users\\gaeta\\Documents\\java\\Pallacanestro\\palla.png";
+	//final String pathCanestro = "C:\\Users\\gaeta\\Documents\\java\\Pallacanestro\\canestro.jpg";
 	
 	//dimensioni iniziali del frame
 	final int LARGHEZZA = 800;	
@@ -210,7 +212,7 @@ public class Frame extends Thread{
 		//se la palla non è in movimento la aggiorno in base ai valori calcolati
     	label3.removeAll();
 	    label3.setIcon(palla);
-    	label3.setBounds(xPalla, yPalla, latoPalla, latoPalla);
+    	label3.setBounds(xPalla - 50, yPalla, latoPalla, latoPalla);
 	    
 	    //canestro
 	    xCanestro = w - (w / 3);
