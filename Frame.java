@@ -1,3 +1,5 @@
+//package palla_canestro;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -165,13 +167,20 @@ public class Frame extends Thread{
 		button.setEnabled(false);
 		
 		//calcolo posizione del canestro
+		//centroXCanestro1 : latoCanestro = 395 : 980
 		centroXCanestro1 = ((395 + (latoPalla / 2)) * latoCanestro) / 980;		//centro del canestro di dimensioni 980x980  -->  395x340 - [585 - latoPalla]x340
 		centroXCanestro2 = ((585 - (latoPalla / 2)) * latoCanestro) / 980;
-		centroYCanestro = (340 * latoCanestro) / 980;
+		centroYCanestro = (640 * latoCanestro) / 980;
 		
 		centroXCanestro1 += xCanestro;	//aggiungo offset del canestro
-		centroXCanestro2 += xCanestro;
-		centroYCanestro += yCanestro;
+		centroXCanestro1 -= xPalla;		//profondità del canestro considerando il punto della palla iniziale come x0
+		centroXCanestro2 += xCanestro;	//aggiungo offset del canestro
+		centroXCanestro2 -= xPalla;		//profondità del canestro considerando il punto della palla iniziale come x0
+		
+		//ricavo la y del canestro a partire dall'altezza di partenza della palla
+		int h = (panel2.getHeight() / 2) - latoCanestro;	//altezza dal fondo al piede del canestro
+		centroYCanestro += h;		//altezza dal fondo al canestro
+		centroYCanestro -= (panel2.getHeight() - yPalla);	//altezza del canestro considerando il suolo della palla
 		
 		//proporziono in base alle x ed y calcolate
 		//xCanestro : x(xCT) = panel2Width : 250;
@@ -210,11 +219,11 @@ public class Frame extends Thread{
 		//se la palla non è in movimento la aggiorno in base ai valori calcolati
     	label3.removeAll();
 	    label3.setIcon(palla);
-    	label3.setBounds(xPalla, yPalla, latoPalla, latoPalla);
+    	label3.setBounds(xPalla - 50, yPalla, latoPalla, latoPalla);
 	    
 	    //canestro
 	    xCanestro = w - (w / 3);
-	    yCanestro = h - (h / 2);
+	    yCanestro = h / 2;
 	    
 	    int areaCanestro = area / 9;
 	    latoCanestro = (int)Math.sqrt(areaCanestro);

@@ -1,4 +1,4 @@
-
+//package palla_canestro;
 
 public class LanciaPalla implements Runnable{	
 	private double angolo;
@@ -90,29 +90,59 @@ public class LanciaPalla implements Runnable{
 		this.x = x;
 	}
 	
+	//TODO: la verifica del canestro deve essere effettuata:
+	/*
+	 * yCanestro -> xPalla		data la y del canestro trovare la sua x
+	 * se la x calcolata è tra il range allora è canestro
+	 */
+	private boolean controlloCanestro(int x, int y) {
+		System.out.println("cx1: " + centroCanestroX1 + "\tcx1: " + centroCanestroX2 + "\ty:" + centroCanestroY);
+		System.out.println("x: " + (x ) + "\t\ty: " + (y));
+		
+		if(centroCanestroY == y && centroCanestroX1 <= x && centroCanestroX2 >= x) {
+			System.out.println("true");
+			return true;
+		} else 
+			return false;
+	}
+	
 	@Override
 	public void run() {
 		cT.setVal(angolo, v);
 		setShowMessage(false);
 		
-		//TODO andre: canestro = cT.isCanestro();
-		
 		int g = cT.calcolaGittata();
 		System.out.println(g);
-		for(int i = 0; i < g; i++) {
-			cT.setX(i);
-			//System.out.println(cT.calcolaX() + "    " + cT.calcolaY());
-			setY((int) (cT.calcolaY()));
-			setX((int)i);
-			//System.out.println(x + "    " + y);
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		int x = 0, y;
+		//for(int i = 0; i < g; i++) {
+		do {
+			cT.setX(x);
+			y = (int) cT.calcolaY();
+			
+			if(y != -1) {
+				setY(y);
+				setX(x);
+				
+				if (controlloCanestro(x, y))
+					setCanestro(true);
+				
+				try {
+					Thread.sleep(10);
+					
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
-		}
+			else {
+				System.err.println("y negativa");
+				setMovimento(false);
+				break;
+			}
+			
+			x++;
+		}while(y >= 0);
 		
+		System.out.println("canestro: " + canestro);
 		setMovimento(false);
 	}
-
 }
