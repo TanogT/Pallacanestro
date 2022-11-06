@@ -92,39 +92,54 @@ public class LanciaPalla implements Runnable{
 		this.x = x;
 	}
 	
+	private boolean controlloCanestro(int x, int y) {
+		System.out.println("x: " + x + "\ny: " + y);
+		System.out.println("can x: " + centroCanestroX1 + "can x: " + centroCanestroX2 + "\ny:" + centroCanestroY);
+		
+		if(centroCanestroY == y && centroCanestroX1 <= x && centroCanestroX2 >= x) {
+			System.out.println("true");
+			return true;
+		} else 
+			return false;
+	}
+	
 	@Override
 	public void run() {
 		cT.setVal(angolo, v);
 		setShowMessage(false);
 		
-		//TODO andre: canestro = cT.isCanestro();
 		
 		int g = cT.calcolaGittata();
 		System.out.println(g);
-		int i = 0, y;
+		int x = 0, y;
 		//for(int i = 0; i < g; i++) {
 		do {
-			cT.setX(i);
+			cT.setX(x);
 			y = (int) cT.calcolaY();
-			if(y != -1)
-				setY((int) (cT.calcolaY()));
+			
+			if(y != -1) {
+				setY(y);
+				setX(x);
+				
+				if (controlloCanestro(x, y))
+					setCanestro(true);
+				
+				try {
+					Thread.sleep(10);
+					
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 			else {
 				System.err.println("y negativa");
 				setMovimento(false);
 				break;
 			}
-			// non so cosa fermare in caso di y negativa 
-			setX((int)i);
-			//System.out.println(x + "    " + y);
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			i++;
-		}while(y != 0);
+			
+			x++;
+		}while(y >= 0);
 		
 		setMovimento(false);
 	}
-
 }
