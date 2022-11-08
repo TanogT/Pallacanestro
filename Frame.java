@@ -1,3 +1,5 @@
+//package palla_canestro;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -40,6 +42,7 @@ public class Frame extends Thread{
 	JLabel label4 = new JLabel();	//canestro
 	
 	JButton button = new JButton();		//bottone gioca
+	JButton button2 = new JButton();	//bottone reset
 	
 	ImageIcon ic1 = new ImageIcon(pathPalla);
     ImageIcon palla = new ImageIcon(ic1.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH));
@@ -60,6 +63,8 @@ public class Frame extends Thread{
 		setButton();
 		setPanel();
 		setFrame();
+		
+		p.setShowMessage(true);		//necessario per non far apparire il joptionpane ad avvio del frame
 		System.out.println("Frame creato");
 	}
 	private void setFrame(){
@@ -84,7 +89,16 @@ public class Frame extends Thread{
 		panel1.add(label2);
 		panel1.add(slider2);
 		panel1.add(Box.createRigidArea(new Dimension(0,40)));		//separatore
-		panel1.add(button);
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setBorder(BorderFactory.createLineBorder(Color.black));
+		buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+		buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 25));
+		buttonPane.add(Box.createHorizontalGlue());
+		buttonPane.add(button);
+		buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+		buttonPane.add(button2);
+		panel1.add(buttonPane);
 		
 		panel2.setBorder(BorderFactory.createLineBorder(Color.black));
 		panel2.setLayout(null);
@@ -111,9 +125,16 @@ public class Frame extends Thread{
 		button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		button.setText("Gioca");
 		button.setAlignmentY(150);
-		button.setPreferredSize(new Dimension(120, 30));
+		button.setPreferredSize(new Dimension(70, 30));
 		button.setFocusPainted(false);
 		button.addActionListener(e -> giocaBut());
+		
+		button2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		button2.setText("Reset");
+		button2.setAlignmentY(150);
+		button2.setPreferredSize(new Dimension(70, 30));
+		button2.setFocusPainted(false);
+		button2.addActionListener(e -> resetBut());
 	}
 	
 	private void setSlider() {
@@ -165,13 +186,20 @@ public class Frame extends Thread{
 		button.setEnabled(false);
 		
 		//calcolo posizione del canestro
+		//centroXCanestro1 : latoCanestro = 395 : 980
 		centroXCanestro1 = ((395 + (latoPalla / 2)) * latoCanestro) / 980;		//centro del canestro di dimensioni 980x980  -->  395x340 - [585 - latoPalla]x340
 		centroXCanestro2 = ((585 - (latoPalla / 2)) * latoCanestro) / 980;
-		centroYCanestro = (340 * latoCanestro) / 980;
+		centroYCanestro = (640 * latoCanestro) / 980;
 		
 		centroXCanestro1 += xCanestro;	//aggiungo offset del canestro
-		centroXCanestro2 += xCanestro;
-		centroYCanestro += yCanestro;
+		centroXCanestro1 -= xPalla;		//profondità del canestro considerando il punto della palla iniziale come x0
+		centroXCanestro2 += xCanestro;	//aggiungo offset del canestro
+		centroXCanestro2 -= xPalla;		//profondità del canestro considerando il punto della palla iniziale come x0
+		
+		//ricavo la y del canestro a partire dall'altezza di partenza della palla
+		int h = (panel2.getHeight() / 2) - latoCanestro;	//altezza dal fondo al piede del canestro
+		centroYCanestro += h;		//altezza dal fondo al canestro
+		centroYCanestro -= (panel2.getHeight() - yPalla);	//altezza del canestro considerando il suolo della palla
 		
 		//proporziono in base alle x ed y calcolate
 		//xCanestro : x(xCT) = panel2Width : 250;
@@ -186,6 +214,11 @@ public class Frame extends Thread{
 		//apro un tread per il calcolo della traiettoria
 		Thread thFrame = new Thread(p);
 		thFrame.start();
+	}
+	
+	private void resetBut() {
+		p.setMovimento(false);
+		//thFrame.resume();
 	}
 	
 	public void spostaPalla() {
@@ -210,11 +243,11 @@ public class Frame extends Thread{
 		//se la palla non è in movimento la aggiorno in base ai valori calcolati
     	label3.removeAll();
 	    label3.setIcon(palla);
-    	label3.setBounds(xPalla, yPalla, latoPalla, latoPalla);
+    	label3.setBounds(xPalla - 50, yPalla, latoPalla, latoPalla);
 	    
 	    //canestro
 	    xCanestro = w - (w / 3);
-	    yCanestro = h - (h / 2);
+	    yCanestro = h / 2;
 	    
 	    int areaCanestro = area / 9;
 	    latoCanestro = (int)Math.sqrt(areaCanestro);
@@ -249,7 +282,10 @@ public class Frame extends Thread{
 			if(!p.isMovimento() && p.isCanestro() && !p.isShowMessage())
 			{
 				p.setShowMessage(true);
-				JOptionPane.showMessageDialog(frame, "Hai fatto canestro!");
+				JOptionPane.showMessageDialog(frame, "Hai fatto canestro!  :)");
+			}else if(!p.isMovimento() && !p.isCanestro() && !p.isShowMessage()) {
+				p.setShowMessage(true);
+				JOptionPane.showMessageDialog(frame, "Non hai fatto canetro!  :(");
 			}
 			
 			//se la palla è ferma al punto zero
