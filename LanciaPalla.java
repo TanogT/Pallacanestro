@@ -12,7 +12,6 @@ public class LanciaPalla implements Runnable{
 	private int centroCanestroX1;
 	private int centroCanestroX2;
 	private int centroCanestroY;
-	CalcoloTraiettoria cT = new CalcoloTraiettoria();
 
 	CalcoloTraiettoria cT = new CalcoloTraiettoria();
 
@@ -108,7 +107,7 @@ public class LanciaPalla implements Runnable{
 	@Override
 	public void run() {
 		cT.setVal(angolo, v);
-		setShowMessage(false);ì
+		setShowMessage(false);
 		setCanestro(false);
 		
 		//TODO andre: canestro = cT.isCanestro();
