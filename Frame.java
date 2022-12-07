@@ -1,4 +1,5 @@
-//package palla_canestro;
+
+package palla_canestro;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -43,6 +44,7 @@ public class Frame extends Thread{
 	
 	JButton button = new JButton();		//bottone gioca
 	JButton button2 = new JButton();	//bottone reset
+
 	
 	ImageIcon ic1 = new ImageIcon(pathPalla);
     ImageIcon palla = new ImageIcon(ic1.getImage().getScaledInstance(45, 45, Image.SCALE_SMOOTH));
@@ -89,6 +91,7 @@ public class Frame extends Thread{
 		panel1.add(label2);
 		panel1.add(slider2);
 		panel1.add(Box.createRigidArea(new Dimension(0,40)));		//separatore
+		
 		
 		JPanel buttonPane = new JPanel();
 		buttonPane.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -215,7 +218,6 @@ public class Frame extends Thread{
 		Thread thFrame = new Thread(p);
 		thFrame.start();
 	}
-	
 	private void resetBut() {
 		p.setMovimento(false);
 		//thFrame.resume();
@@ -243,7 +245,7 @@ public class Frame extends Thread{
 		//se la palla non è in movimento la aggiorno in base ai valori calcolati
     	label3.removeAll();
 	    label3.setIcon(palla);
-    	label3.setBounds(xPalla - 50, yPalla, latoPalla, latoPalla);
+    	label3.setBounds(xPalla, yPalla, latoPalla, latoPalla);
 	    
 	    //canestro
 	    xCanestro = w - (w / 3);
